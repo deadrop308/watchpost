@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Watchpost Privacy Policy</title>
+<meta name="description" content="How the Watchpost app collects, uses and protects personal data.">
+<link rel="icon" href="favicon.png">
+<style>
+  :root {
+    --bg: #f5f5f5; --card: #ffffff; --text: #1c1b1f; --muted: #5f6368;
+    --brand: #1976d2; --border: #e0e0e0; --note: #e3f2fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121212; --card: #1e1e1e; --text: #e6e1e5; --muted: #a8a8a8;
+      --brand: #90caf9; --border: #333333; --note: #0d2a45;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  header { background: #1976d2; color: #fff; padding: 20px 16px; }
+  header .inner, main { max-width: 820px; margin: 0 auto; }
+  header h1 { margin: 0; font-size: 1.4rem; }
+  header nav { margin-top: 8px; font-size: .95rem; }
+  header a { color: #fff; }
+  main { padding: 16px; }
+  section.lang {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px 24px 24px; margin-bottom: 24px;
+  }
+  h2 { color: var(--brand); font-size: 1.25rem; margin-top: 24px; }
+  h3 { font-size: 1.05rem; margin: 20px 0 4px; }
+  a { color: var(--brand); }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .note { background: var(--note); border-radius: 8px; padding: 12px 16px; }
+  ul { padding-inline-start: 22px; }
+  li { margin: 4px 0; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 8px 16px 32px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <h1>Watchpost Privacy Policy · מדיניות פרטיות</h1>
+    <nav><a href="#en">English</a> · <a href="#he">עברית</a> · <a href="delete-account.html">Delete account · מחיקת חשבון</a></nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ ENGLISH ============================ -->
+<section class="lang" id="en" lang="en" dir="ltr">
+  <h2>Privacy Policy</h2>
+  <p class="muted">Last updated: 15 October 2026</p>
+
+  <p>Watchpost is a work app for managing field service calls. Workers use the Android app to receive,
+  open and close calls; managers and administrators use the web app at
+  <a href="https://watchpost-il.web.app">watchpost-il.web.app</a>. Watchpost is operated by
+  <strong>{{COMPANY}}</strong> ("we") for its employees and is developed by Vlad Furman.
+  Accounts are created by the organization; there is no public sign-up.</p>
+
+  <h3>1. Data we collect</h3>
+  <ul>
+    <li><strong>Account details:</strong> your full name, work email address, role (worker, manager or
+      administrator), branch and account status. Your password is managed by Google Firebase
+      Authentication and is never visible to us. When your account is created, a temporary password is
+      sent to your email address.</li>
+    <li><strong>Call records:</strong> the calls assigned to you, including the client and site name and
+      address, the times a call was opened, reached and closed, notes, checklist results, manager
+      instructions, and a signature image drawn on screen when a call is closed.</li>
+    <li><strong>Device push token:</strong> an identifier from Firebase Cloud Messaging, used only to send
+      you notifications about new calls.</li>
+    <li><strong>App integrity signals:</strong> Google Play Integrity (Android) and reCAPTCHA (web) check
+      that requests come from the genuine Watchpost app. Google processes device or browser signals for
+      this check.</li>
+    <li><strong>Technical logs:</strong> error and security logs kept by our cloud provider.</li>
+    <li><strong>On your device only:</strong> your theme and language preferences.</li>
+  </ul>
+  <p><strong>We do not collect</strong> your device's GPS location, contacts, photos, camera, microphone,
+  advertising identifiers or analytics. The navigation button opens a maps app of your choice with the
+  client's address; that app's own privacy policy applies.</p>
+
+  <h3>2. How we use the data</h3>
+  <ul>
+    <li>To sign you in and give you access matching your role and branch.</li>
+    <li>To assign, track and document service calls, and to produce work reports for your branch.</li>
+    <li>To notify you about new or changed calls.</li>
+    <li>To protect the service against misuse and to fix problems.</li>
+  </ul>
+  <p>We do not sell personal data and do not use it for advertising.</p>
+
+  <h3>3. Who can see your data</h3>
+  <ul>
+    <li><strong>Inside the organization:</strong> managers see the workers and calls of their own branch;
+      administrators see all branches. Workers see their own calls.</li>
+    <li><strong>Service providers:</strong> Google (Firebase Authentication, Cloud Firestore, Cloud
+      Storage, Cloud Functions, Cloud Messaging, Google Maps Places, Gmail for account emails, Play
+      Integrity and reCAPTCHA) stores and processes data on our behalf.</li>
+    <li><strong>Authorities:</strong> only when the law requires it.</li>
+  </ul>
+
+  <h3>4. Where the data is stored</h3>
+  <p>Our database is hosted by Google Cloud in Israel (Tel Aviv region). Some processing, such as server
+  functions, push notifications and email, may take place in Google data centers in other countries,
+  including the United States.</p>
+
+  <h3>5. How long we keep it</h3>
+  <ul>
+    <li><strong>Account details:</strong> while your account exists. Deactivated accounts lose access
+      immediately. Accounts are deleted on request (see <a href="delete-account.html">Delete your account</a>).</li>
+    <li><strong>Call records</strong>, including signatures: kept as business records of {{COMPANY}} for
+      up to 7 years.</li>
+    <li><strong>Technical logs:</strong> up to 30 days.</li>
+  </ul>
+
+  <h3>6. Security</h3>
+  <p>Data is encrypted in transit (HTTPS) and at rest. Access is limited by role and branch through
+  server-side security rules, account changes go through protected server functions, and App Check
+  blocks requests that don't come from the genuine app.</p>
+
+  <h3>7. Your rights</h3>
+  <p>You may ask to see, correct or delete your personal data. Contact your manager or email
+  <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>. We reply within 30 days. If you are not satisfied, you may
+  contact the Israeli Privacy Protection Authority.</p>
+
+  <h3>8. Children</h3>
+  <p>Watchpost is a work tool for employees and is not intended for anyone under 18.</p>
+
+  <h3>9. Changes</h3>
+  <p>We will update the date at the top of this page when this policy changes. Significant changes will
+  also be announced to users.</p>
+
+  <h3>10. Contact</h3>
+  <p class="note">{{COMPANY}} · <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+</section>
+
+<!-- ============================ HEBREW ============================ -->
+<section class="lang" id="he" lang="he" dir="rtl">
+  <h2>מדיניות פרטיות</h2>
+  <p class="muted">עודכן לאחרונה: 15 באוקטובר 2026</p>
+
+  <p>Watchpost היא אפליקציית עבודה לניהול קריאות שירות בשטח. עובדים משתמשים באפליקציית האנדרואיד כדי
+  לקבל, לפתוח ולסגור קריאות; מנהלים ומנהלי מערכת משתמשים באפליקציית הרשת בכתובת
+  <a href="https://watchpost-il.web.app">watchpost-il.web.app</a>. Watchpost מופעלת על ידי
+  <strong>{{COMPANY}}</strong> ("אנחנו") עבור עובדיה, ופותחה על ידי ולד פורמן.
+  החשבונות נוצרים על ידי הארגון; אין הרשמה פתוחה לציבור.</p>
+
+  <h3>1. המידע שאנחנו אוספים</h3>
+  <ul>
+    <li><strong>פרטי חשבון:</strong> שם מלא, כתובת דוא"ל של העבודה, תפקיד (עובד, מנהל או מנהל מערכת),
+      סניף ומצב החשבון. הסיסמה מנוהלת על ידי Google Firebase Authentication ואינה גלויה לנו. בעת יצירת
+      החשבון נשלחת סיסמה זמנית לכתובת הדוא"ל שלך.</li>
+    <li><strong>רשומות קריאות:</strong> הקריאות שהוקצו לך, כולל שם הלקוח והאתר וכתובתו, מועדי פתיחת
+      הקריאה, ההגעה והסגירה, הערות, תוצאות רשימת התיוג, הוראות מנהל, ותמונת חתימה שנחתמת על המסך בעת
+      סגירת קריאה.</li>
+    <li><strong>מזהה התראות של המכשיר:</strong> מזהה של Firebase Cloud Messaging, המשמש רק לשליחת
+      התראות על קריאות חדשות.</li>
+    <li><strong>בדיקות אמינות האפליקציה:</strong> Google Play Integrity (באנדרואיד) ו-reCAPTCHA (ברשת)
+      מוודאים שהבקשות מגיעות מאפליקציית Watchpost המקורית. Google מעבדת לשם כך נתונים מהמכשיר או
+      מהדפדפן.</li>
+    <li><strong>יומנים טכניים:</strong> יומני שגיאות ואבטחה הנשמרים אצל ספק הענן.</li>
+    <li><strong>במכשיר שלך בלבד:</strong> העדפות ערכת הנושא והשפה.</li>
+  </ul>
+  <p><strong>איננו אוספים</strong> את מיקום ה-GPS של המכשיר, אנשי קשר, תמונות, מצלמה, מיקרופון, מזהי
+  פרסום או נתוני אנליטיקה. כפתור הניווט פותח אפליקציית מפות לבחירתך עם כתובת הלקוח; על אפליקציה זו
+  חלה מדיניות הפרטיות שלה.</p>
+
+  <h3>2. כיצד אנחנו משתמשים במידע</h3>
+  <ul>
+    <li>כדי לחבר אותך למערכת ולתת לך גישה בהתאם לתפקיד ולסניף שלך.</li>
+    <li>כדי להקצות, לעקוב ולתעד קריאות שירות, ולהפיק דוחות עבודה לסניף.</li>
+    <li>כדי להתריע לך על קריאות חדשות או על שינויים בהן.</li>
+    <li>כדי להגן על השירות מפני שימוש לרעה ולתקן תקלות.</li>
+  </ul>
+  <p>איננו מוכרים מידע אישי ואיננו משתמשים בו לפרסום.</p>
+
+  <h3>3. מי יכול לראות את המידע</h3>
+  <ul>
+    <li><strong>בתוך הארגון:</strong> מנהלים רואים את העובדים והקריאות של הסניף שלהם; מנהלי מערכת רואים
+      את כל הסניפים. עובדים רואים את הקריאות שלהם.</li>
+    <li><strong>ספקי שירות:</strong> Google (Firebase Authentication, Cloud Firestore, Cloud Storage,
+      Cloud Functions, Cloud Messaging, Google Maps Places, Gmail לשליחת הודעות חשבון, Play Integrity
+      ו-reCAPTCHA) שומרת ומעבדת מידע עבורנו.</li>
+    <li><strong>רשויות:</strong> רק כאשר החוק מחייב זאת.</li>
+  </ul>
+
+  <h3>4. היכן המידע נשמר</h3>
+  <p>מסד הנתונים מתארח ב-Google Cloud בישראל (אזור תל אביב). חלק מהעיבוד, כמו פונקציות שרת, התראות
+  ודוא"ל, עשוי להתבצע במרכזי נתונים של Google במדינות אחרות, כולל ארצות הברית.</p>
+
+  <h3>5. כמה זמן אנחנו שומרים את המידע</h3>
+  <ul>
+    <li><strong>פרטי חשבון:</strong> כל עוד החשבון קיים. חשבון שהושבת מאבד גישה מיד. חשבונות נמחקים לפי
+      בקשה (ראו <a href="delete-account.html#he">מחיקת חשבון</a>).</li>
+    <li><strong>רשומות קריאות</strong>, כולל חתימות: נשמרות כרשומות עסקיות של {{COMPANY}} עד 7 שנים.</li>
+    <li><strong>יומנים טכניים:</strong> עד 30 יום.</li>
+  </ul>
+
+  <h3>6. אבטחה</h3>
+  <p>המידע מוצפן בהעברה (HTTPS) ובאחסון. הגישה מוגבלת לפי תפקיד וסניף באמצעות כללי אבטחה בצד השרת,
+  שינויים בחשבונות מתבצעים דרך פונקציות שרת מוגנות, ו-App Check חוסם בקשות שאינן מגיעות מהאפליקציה
+  המקורית.</p>
+
+  <h3>7. הזכויות שלך</h3>
+  <p>באפשרותך לבקש לעיין במידע האישי שלך, לתקן אותו או למחוק אותו. פנה/י למנהל/ת שלך או בדוא"ל אל
+  <a href="mailto:{{EMAIL}}">{{EMAIL}}</a>. נשיב תוך 30 יום. אם אינך מרוצה מהמענה, ניתן לפנות לרשות
+  להגנת הפרטיות.</p>
+
+  <h3>8. קטינים</h3>
+  <p>Watchpost היא כלי עבודה לעובדים ואינה מיועדת למי שגילו מתחת ל-18.</p>
+
+  <h3>9. שינויים</h3>
+  <p>כאשר המדיניות תשתנה, נעדכן את התאריך בראש העמוד. שינויים מהותיים יפורסמו גם למשתמשים.</p>
+
+  <h3>10. יצירת קשר</h3>
+  <p class="note">{{COMPANY}} · <a href="mailto:{{EMAIL}}">{{EMAIL}}</a></p>
+</section>
+
+</main>
+<footer>Watchpost · <a href="https://watchpost-il.web.app">watchpost-il.web.app</a></footer>
+</body>
+</html>

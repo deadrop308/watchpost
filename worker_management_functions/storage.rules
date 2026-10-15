@@ -1,0 +1,35 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    /// Signature images, stored as signatures/{callId}.png
+    match /signatures/{callId} {
+
+      /// Any signed-in user can READ a signature.
+      /// Storage rules cannot read Firestore, so they can't check the
+      /// caller's branch or ownership here — doing that properly would
+      /// need a Cloud Function (or signed-URL) proxy. callIds are random
+      /// UUIDs, which is obscurity, not a real control, so treat signature
+      /// images as readable by any authenticated user for now.
+      allow read: if request.auth != null;
+
+      /// A signature may be written ONCE and never changed:
+      ///  - create only (no overwrite) → a closed call's signature can't
+      ///    be forged or replaced
+      ///  - must be a PNG or JPEG under 2 MB → no arbitrary files and no
+      ///    giant uploads running up the Storage bill
+      allow create: if request.auth != null
+        && request.resource.size < 2 * 1024 * 1024
+        && request.resource.contentType.matches('image/(png|jpeg)');
+
+      /// Overwriting or deleting a signature is never allowed from a client
+      allow update, delete: if false;
+    }
+
+    /// Deny everything else by default, so no other path is ever
+    /// accidentally left world-open.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

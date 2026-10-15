@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delete Watchpost Account</title>
+<meta name="description" content="How to request deletion of your Watchpost account and data.">
+<link rel="icon" href="favicon.png">
+<style>
+  :root {
+    --bg: #f5f5f5; --card: #ffffff; --text: #1c1b1f; --muted: #5f6368;
+    --brand: #1976d2; --border: #e0e0e0; --note: #e3f2fd;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #121212; --card: #1e1e1e; --text: #e6e1e5; --muted: #a8a8a8;
+      --brand: #90caf9; --border: #333333; --note: #0d2a45;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  header { background: #1976d2; color: #fff; padding: 20px 16px; }
+  header .inner, main { max-width: 820px; margin: 0 auto; }
+  header h1 { margin: 0; font-size: 1.4rem; }
+  header nav { margin-top: 8px; font-size: .95rem; }
+  header a { color: #fff; }
+  main { padding: 16px; }
+  section.lang {
+    background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 8px 24px 24px; margin-bottom: 24px;
+  }
+  h2 { color: var(--brand); font-size: 1.25rem; margin-top: 24px; }
+  h3 { font-size: 1.05rem; margin: 20px 0 4px; }
+  a { color: var(--brand); }
+  .muted { color: var(--muted); font-size: .9rem; }
+  .note { background: var(--note); border-radius: 8px; padding: 12px 16px; }
+  ol, ul { padding-inline-start: 22px; }
+  li { margin: 4px 0; }
+  footer { text-align: center; color: var(--muted); font-size: .85rem; padding: 8px 16px 32px; }
+</style>
+</head>
+<body>
+<header>
+  <div class="inner">
+    <h1>Delete your Watchpost account · מחיקת חשבון Watchpost</h1>
+    <nav><a href="#en">English</a> · <a href="#he">עברית</a> · <a href="privacy.html">Privacy policy · מדיניות פרטיות</a></nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============================ ENGLISH ============================ -->
+<section class="lang" id="en" lang="en" dir="ltr">
+  <h2>Request account deletion</h2>
+  <p>This page explains how to delete your account in <strong>Watchpost</strong>, the field service app
+  operated by <strong>{{COMPANY}}</strong> and developed by Vlad Furman.</p>
+
+  <h3>How to request deletion</h3>
+  <ol>
+    <li>Send an email to <a href="mailto:{{EMAIL}}?subject=Delete%20my%20Watchpost%20account">{{EMAIL}}</a>
+      <strong>from the email address of your Watchpost account</strong>, with the subject
+      "Delete my Watchpost account".</li>
+    <li>Include your full name and your branch.</li>
+    <li>You can also ask your manager, who will deactivate your account right away and forward the request.</li>
+  </ol>
+  <p>We confirm your request within 7 days and complete the deletion within 30 days. Your account stops
+  working as soon as the request is confirmed.</p>
+  <p class="note">Uninstalling the app does not delete your account.</p>
+
+  <h3>What is deleted</h3>
+  <ul>
+    <li>Your login account (email address and password).</li>
+    <li>Your profile: full name, role, branch and account status.</li>
+    <li>Your device push token, so you no longer get notifications.</li>
+  </ul>
+
+  <h3>What is kept, and for how long</h3>
+  <ul>
+    <li><strong>Call records</strong> you worked on (client and site, times, notes, checklist results and
+      signatures), including your name on those records. They are business records of {{COMPANY}} and are
+      kept for up to 7 years, then deleted.</li>
+    <li><strong>Technical logs</strong>: deleted automatically within 30 days.</li>
+  </ul>
+  <p>See the <a href="privacy.html">privacy policy</a> for more details.</p>
+</section>
+
+<!-- ============================ HEBREW ============================ -->
+<section class="lang" id="he" lang="he" dir="rtl">
+  <h2>בקשה למחיקת חשבון</h2>
+  <p>עמוד זה מסביר כיצד למחוק את החשבון שלך ב-<strong>Watchpost</strong>, אפליקציית קריאות השירות
+  המופעלת על ידי <strong>{{COMPANY}}</strong> ופותחה על ידי ולד פורמן.</p>
+
+  <h3>איך מבקשים מחיקה</h3>
+  <ol>
+    <li>שלח/י דוא"ל אל <a href="mailto:{{EMAIL}}?subject=Delete%20my%20Watchpost%20account">{{EMAIL}}</a>
+      <strong>מכתובת הדוא"ל של חשבון Watchpost שלך</strong>, עם הנושא "מחיקת חשבון Watchpost".</li>
+    <li>ציין/י את שמך המלא ואת הסניף שלך.</li>
+    <li>אפשר גם לפנות למנהל/ת, שיש/תשבית את החשבון מיד ויעביר/תעביר את הבקשה.</li>
+  </ol>
+  <p>נאשר את הבקשה תוך 7 ימים ונשלים את המחיקה תוך 30 יום. החשבון מפסיק לעבוד מרגע אישור הבקשה.</p>
+  <p class="note">הסרת האפליקציה מהטלפון אינה מוחקת את החשבון.</p>
+
+  <h3>מה נמחק</h3>
+  <ul>
+    <li>חשבון ההתחברות (כתובת דוא"ל וסיסמה).</li>
+    <li>הפרופיל: שם מלא, תפקיד, סניף ומצב החשבון.</li>
+    <li>מזהה ההתראות של המכשיר, כך שלא יישלחו אליך עוד התראות.</li>
+  </ul>
+
+  <h3>מה נשמר, ולכמה זמן</h3>
+  <ul>
+    <li><strong>רשומות קריאות</strong> שטיפלת בהן (לקוח ואתר, מועדים, הערות, תוצאות רשימת התיוג וחתימות),
+      כולל שמך ברשומות אלה. אלה רשומות עסקיות של {{COMPANY}}, והן נשמרות עד 7 שנים ולאחר מכן נמחקות.</li>
+    <li><strong>יומנים טכניים</strong>: נמחקים אוטומטית תוך 30 יום.</li>
+  </ul>
+  <p>פרטים נוספים ב<a href="privacy.html#he">מדיניות הפרטיות</a>.</p>
+</section>
+
+</main>
+<footer>Watchpost · <a href="https://watchpost-il.web.app">watchpost-il.web.app</a></footer>
+</body>
+</html>

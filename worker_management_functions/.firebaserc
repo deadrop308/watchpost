@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "worker-management-app-4e63e"
+  },
+  "targets": {
+    "worker-management-app-4e63e": {
+      "hosting": {
+        "watchpost": [
+          "watchpost"
+        ],
+        "watchpost-il": [
+          "watchpost-il"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

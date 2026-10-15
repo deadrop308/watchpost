@@ -1,0 +1,34 @@
+# Build outputs
+build/
+.dart_tool/
+
+# IDE
+.idea/
+*.iml
+
+# Node
+node_modules/
+
+# Android/Gradle
+.gradle/
+local.properties
+key.properties
+*.jks
+*.keystore
+
+# Env / secrets
+.env
+.env.*
+
+# Logs
+*.log
+
+# Editor/backup files
+*.bak
+
+# Firebase local cache
+.firebase/
+
+# Service account credentials
+*service-account*.json
+*serviceAccountKey*.json

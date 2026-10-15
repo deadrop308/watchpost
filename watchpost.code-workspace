@@ -1,0 +1,99 @@
+{
+  // Watchpost — one VS Code window for the Flutter app AND the backend.
+  // Put this file in the folder that CONTAINS worker_management_app and
+  // worker_management_functions, then double-click it (or File → Open
+  // Workspace from File...).
+  "folders": [
+    {
+      "name": "Watchpost App",
+      "path": "worker_management_app"
+    },
+    {
+      "name": "Watchpost Backend",
+      "path": "worker_management_functions"
+    }
+  ],
+
+  "settings": {
+    // Where Flutter is installed on this PC
+    "dart.flutterSdkPath": "C:\\flutter",
+
+    // Hide Android Studio leftovers and generated folders from the sidebar
+    "files.exclude": {
+      "**/.idea": true,
+      "**/*.iml": true,
+      "**/.dart_tool": true
+    },
+
+    // Don't search inside build output or installed packages
+    "search.exclude": {
+      "**/build": true,
+      "**/node_modules": true
+    },
+
+    // Show the 80-character line guide Dart code is formatted to
+    "[dart]": {
+      "editor.rulers": [80]
+    },
+
+    // Stop the Java extension (if installed) from trying to open the
+    // android/ folder as its own Java project. Flutter builds Android
+    // itself — this import only causes false "Unsupported class file
+    // major version" / "Can't use Java ... and Gradle ..." errors.
+    "java.import.gradle.enabled": false,
+    "java.import.maven.enabled": false,
+    "java.configuration.updateBuildConfiguration": "disabled",
+    "java.import.exclusions": [
+      "**/android/**"
+    ]
+  },
+
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        // Runs on whichever device is selected in the bottom-right corner
+        // (your phone over USB, or the emulator)
+        "name": "Watchpost (phone / emulator)",
+        "type": "dart",
+        "request": "launch",
+        "program": "lib/main.dart",
+        "cwd": "${workspaceFolder:Watchpost App}"
+      },
+      {
+        // Runs the web version in Microsoft Edge
+        "name": "Watchpost (Edge)",
+        "type": "dart",
+        "request": "launch",
+        "program": "lib/main.dart",
+        "cwd": "${workspaceFolder:Watchpost App}",
+        "deviceId": "edge"
+      },
+      {
+        // Runs the web version in Chrome
+        "name": "Watchpost (Chrome)",
+        "type": "dart",
+        "request": "launch",
+        "program": "lib/main.dart",
+        "cwd": "${workspaceFolder:Watchpost App}",
+        "deviceId": "chrome"
+      }
+    ]
+  },
+
+  "extensions": {
+    "recommendations": [
+      // Flutter + Dart support (the Flutter extension installs Dart too)
+      "Dart-Code.flutter",
+      "Dart-Code.dart-code",
+      // Syntax highlighting for firestore.rules / storage.rules
+      "toba.vsfire"
+    ],
+    // Not needed for Flutter, and they misread the android/ folder
+    "unwantedRecommendations": [
+      "redhat.java",
+      "vscjava.vscode-gradle",
+      "vscjava.vscode-java-pack"
+    ]
+  }
+}

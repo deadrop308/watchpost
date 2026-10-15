@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "705121003347",
+    "project_id": "worker-management-app-4e63e",
+    "storage_bucket": "worker-management-app-4e63e.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705121003347:android:09a82f2a0b0f590bc423a6",
+        "android_client_info": {
+          "package_name": "com.vladfurman.worker_management_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtztR8jLoUPJrzs5qFPZGr3NUi0YSwpd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:705121003347:android:52e3f3c1e1b54d12c423a6",
+        "android_client_info": {
+          "package_name": "com.vladfurman.workermanager"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBtztR8jLoUPJrzs5qFPZGr3NUi0YSwpd0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

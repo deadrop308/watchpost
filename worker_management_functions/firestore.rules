@@ -1,0 +1,185 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─────────────────────────────────────────────
+    // HELPER FUNCTIONS
+    // ─────────────────────────────────────────────
+
+    /// Returns true if the requesting user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    /// Returns the requesting user's Firestore document data
+    function getUserDocument() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    /// Returns true if the requesting user has the given role
+    /// AND their account is still active
+    function hasRole(role) {
+      return isAuthenticated()
+        && getUserDocument().role == role
+        && getUserDocument().isActive == true;
+    }
+
+    /// Returns the requesting user's branchId
+    function getUserBranchId() {
+      return getUserDocument().branchId;
+    }
+
+    // ─────────────────────────────────────────────
+    // RATE LIMITS COLLECTION
+    // Only Cloud Functions (admin SDK) may touch rate-limit counters.
+    // ─────────────────────────────────────────────
+    match /rateLimits/{docId} {
+      allow read, write: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // USERS COLLECTION
+    // ─────────────────────────────────────────────
+    match /users/{userId} {
+      /// A user can read their own document.
+      /// A manager can read users IN THEIR OWN BRANCH only.
+      /// An admin (company-wide) can read any user.
+      allow read: if isAuthenticated() && (
+        request.auth.uid == userId ||
+        (hasRole('manager') && resource.data.branchId == getUserBranchId()) ||
+        hasRole('admin')
+      );
+
+      /// Clients may ONLY update their own FCM token.
+      /// role, branchId, email, name and isActive are changed exclusively by
+      /// Cloud Functions (admin SDK). Activating/deactivating a user goes
+      /// through setUserActive, which also locks the login itself.
+      allow update: if isAuthenticated()
+        && request.auth.uid == userId
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['fcmToken']);
+
+      /// Only Cloud Functions can create user documents
+      allow create: if false;
+
+      /// Nobody can delete user documents from the client
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // CALLS COLLECTION
+    // ─────────────────────────────────────────────
+    match /calls/{callId} {
+      /// Workers can read their own calls.
+      /// Managers can read every call in their branch.
+      allow read: if isAuthenticated() && (
+        resource.data.workerUserId == request.auth.uid ||
+        (hasRole('manager') && resource.data.branchId == getUserBranchId())
+      );
+
+      /// Workers create calls only under their own name, in their own branch.
+      /// Managers create calls for any member of their own branch.
+      allow create: if isAuthenticated() && (
+        (hasRole('worker')
+          && request.resource.data.workerUserId == request.auth.uid
+          && request.resource.data.branchId == getUserBranchId())
+        ||
+        (hasRole('manager')
+          && request.resource.data.branchId == getUserBranchId()
+          && get(/databases/$(database)/documents/users/$(request.resource.data.workerUserId)).data.branchId == getUserBranchId())
+      );
+
+      /// Workers update their own calls; managers any call in their branch.
+      /// A call can never be reassigned to a different worker or branch.
+      allow update: if isAuthenticated()
+        && request.resource.data.workerUserId == resource.data.workerUserId
+        && request.resource.data.branchId == resource.data.branchId
+        && (
+          (hasRole('worker') && resource.data.workerUserId == request.auth.uid) ||
+          (hasRole('manager') && resource.data.branchId == getUserBranchId())
+        );
+
+      /// Nobody can delete calls
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // CLIENTS COLLECTION
+    // ─────────────────────────────────────────────
+    match /clients/{clientId} {
+      /// Workers and managers can read clients in their branch
+      allow read: if isAuthenticated()
+        && resource.data.branchId == getUserBranchId();
+
+      /// Only managers can create/update clients in their own branch
+      allow create: if hasRole('manager')
+        && request.resource.data.branchId == getUserBranchId();
+
+      allow update: if hasRole('manager')
+        && resource.data.branchId == getUserBranchId();
+
+      /// Nobody can delete clients (soft-delete only)
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // LOCATIONS COLLECTION
+    // ─────────────────────────────────────────────
+    match /locations/{locationId} {
+      /// Workers and managers can read locations in their branch
+      allow read: if isAuthenticated()
+        && resource.data.branchId == getUserBranchId();
+
+      /// Only managers can create/update locations in their own branch
+      allow create: if hasRole('manager')
+        && request.resource.data.branchId == getUserBranchId();
+
+      allow update: if hasRole('manager')
+        && resource.data.branchId == getUserBranchId();
+
+      /// Nobody can delete locations (soft-delete only)
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // OPERATION TYPES COLLECTION
+    // ─────────────────────────────────────────────
+    match /operationTypes/{operationTypeId} {
+      /// Workers and managers can read operation types in their branch
+      allow read: if isAuthenticated()
+        && resource.data.branchId == getUserBranchId();
+
+      /// Only managers can create/update operation types in their own branch
+      allow create: if hasRole('manager')
+        && request.resource.data.branchId == getUserBranchId();
+
+      allow update: if hasRole('manager')
+        && resource.data.branchId == getUserBranchId();
+
+      /// Nobody can delete operation types (soft-delete only)
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // BRANCHES COLLECTION
+    // ─────────────────────────────────────────────
+    match /branches/{branchId} {
+      /// Admins and managers can read branches
+      allow read: if hasRole('admin') || hasRole('manager');
+
+      /// Only admins can create or rename/deactivate branches
+      allow create, update: if hasRole('admin');
+
+      /// Nobody can delete branches (soft-delete only)
+      allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // DEFAULT DENY
+    // Any collection not matched above is fully locked, so a new
+    // collection is never accidentally world-readable.
+    // ─────────────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

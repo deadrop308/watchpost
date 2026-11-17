@@ -251,5 +251,62 @@
   "resetLinkFailed": "Couldn't send the reset email. Please try again later.",
   "resetTooManyRequests": "Too many attempts. Please wait a few minutes and try again.",
   "privacyPolicy": "Privacy policy",
-  "couldNotOpenLink": "Couldn't open the link. Check your internet connection and try again."
+  "couldNotOpenLink": "Couldn't open the link. Check your internet connection and try again.",
+  "mainMenu": "Main",
+  "diary": "Diary",
+  "diaryComingSoon": "Technician notes for each machine will appear here.",
+  "diarySearchHint": "Search businesses",
+  "diaryNoBusinesses": "No businesses found.",
+  "diaryNoMachines": "No machines for this business yet.",
+  "diaryNoteCount": "{count, plural, =1{1 note} other{{count} notes}}",
+  "@diaryNoteCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "diaryLastNote": "last {time}",
+  "@diaryLastNote": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "diaryToday": "Today {time}",
+  "@diaryToday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "diaryYesterday": "Yesterday {time}",
+  "@diaryYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "diaryMachineInfo": "Machine info",
+  "diaryRecentNotes": "Technician notes, last {days} days",
+  "@diaryRecentNotes": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "diaryNoRecentNotes": "No notes in this period yet.",
+  "diaryAddNote": "Add note",
+  "diaryNoteHint": "What did you do or notice? The next technician will see it.",
+  "diarySave": "Save",
+  "diaryDelete": "Delete",
+  "diaryNoteSaveFailed": "Couldn't save the note. Try again.",
+  "diaryDeleteNoteTitle": "Delete this note?",
+  "diaryDeleteNoteConfirm": "This can't be undone.",
+  "diaryNoteDeleteFailed": "Couldn't delete the note.",
+  "diaryLoadFailed": "Couldn't load the diary."
 }

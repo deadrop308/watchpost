@@ -7,6 +7,7 @@ import '../models/operation_type_model.dart';
 import '../models/client_model.dart';
 import '../models/note_entry_model.dart';
 import '../models/close_form_model.dart';
+import '../models/field_note_model.dart';
 
 /// Handles all read and write operations with Firebase Firestore.
 /// This is the single point of contact between the app and the database.
@@ -24,6 +25,10 @@ class FirestoreService {
   static const String _clientsCollection = 'clients';
   static const String _branchesCollection = 'branches';
   static const String _operationTypesCollection = 'operationTypes';
+  static const String _fieldNotesCollection = 'fieldNotes';
+
+  /// How long field notes stay in the Diary when the branch has no setting
+  static const int defaultFieldNoteRetentionDays = 7;
 
   // ─────────────────────────────────────────────
   // USER OPERATIONS
@@ -98,10 +103,9 @@ class FirestoreService {
   /// Soft-deletes a user by setting their isActive flag to false.
   /// The document is kept in Firestore for historical reference.
   Future<void> deactivateUser(String userId) async {
-    await _firestoreInstance
-        .collection(_usersCollection)
-        .doc(userId)
-        .update({'isActive': false});
+    await _firestoreInstance.collection(_usersCollection).doc(userId).update({
+      'isActive': false,
+    });
   }
 
   /// Saves or updates the FCM device token for a user.
@@ -110,10 +114,9 @@ class FirestoreService {
     required String userId,
     required String fcmToken,
   }) async {
-    await _firestoreInstance
-        .collection(_usersCollection)
-        .doc(userId)
-        .update({'fcmToken': fcmToken});
+    await _firestoreInstance.collection(_usersCollection).doc(userId).update({
+      'fcmToken': fcmToken,
+    });
   }
 
   // ─────────────────────────────────────────────
@@ -138,10 +141,7 @@ class FirestoreService {
     String? notes,
     Map<String, bool> checklistResults = const {},
   }) async {
-    await _firestoreInstance
-        .collection(_callsCollection)
-        .doc(callId)
-        .update({
+    await _firestoreInstance.collection(_callsCollection).doc(callId).update({
       'endTime': endTime,
       'status': 'closed',
       'signatureImageUrl': signatureImageUrl,
@@ -151,7 +151,7 @@ class FirestoreService {
   }
 
   /// Returns a real-time stream of all active calls for a specific worker.
-  /// Active means open, arrived or paused — anything that is not closed.
+  /// Active means open, arrived or paused, anything that is not closed.
   Stream<List<CallModel>> streamWorkerActiveCalls(String workerUserId) {
     return _firestoreInstance
         .collection(_callsCollection)
@@ -159,9 +159,11 @@ class FirestoreService {
         .where('status', whereIn: ['open', 'arrived', 'paused'])
         .orderBy('startTime', descending: true)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Returns a real-time stream of all calls for a specific branch today.
@@ -178,9 +180,11 @@ class FirestoreService {
         .where('startTime', isGreaterThanOrEqualTo: startOfToday)
         .orderBy('startTime', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Returns a real-time stream of all calls for a specific branch that are
@@ -200,9 +204,11 @@ class FirestoreService {
         .where('startTime', isGreaterThanOrEqualTo: startOfToday)
         .orderBy('startTime', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
 
     /// Stream unclosed calls from previous days
     final Stream<List<CallModel>> unclosedOldCallsStream = _firestoreInstance
@@ -212,14 +218,16 @@ class FirestoreService {
         .where('status', whereIn: ['open', 'arrived', 'paused'])
         .orderBy('startTime', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => CallModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
 
     /// Combine both streams into one list
     return todayCallsStream.asyncMap((todayCalls) async {
       final List<CallModel> unclosedOldCalls =
-      await unclosedOldCallsStream.first;
+          await unclosedOldCallsStream.first;
       return [...unclosedOldCalls, ...todayCalls];
     });
   }
@@ -253,10 +261,7 @@ class FirestoreService {
     required String callId,
     required DateTime arrivedAt,
   }) async {
-    await _firestoreInstance
-        .collection(_callsCollection)
-        .doc(callId)
-        .update({
+    await _firestoreInstance.collection(_callsCollection).doc(callId).update({
       'arrivedAt': arrivedAt,
       'status': 'arrived',
     });
@@ -268,10 +273,7 @@ class FirestoreService {
     required String callId,
     required String currentStatus,
   }) async {
-    await _firestoreInstance
-        .collection(_callsCollection)
-        .doc(callId)
-        .update({
+    await _firestoreInstance.collection(_callsCollection).doc(callId).update({
       'previousStatus': currentStatus,
       'status': 'paused',
     });
@@ -282,10 +284,7 @@ class FirestoreService {
     required String callId,
     required String previousStatus,
   }) async {
-    await _firestoreInstance
-        .collection(_callsCollection)
-        .doc(callId)
-        .update({
+    await _firestoreInstance.collection(_callsCollection).doc(callId).update({
       'status': previousStatus,
       'previousStatus': null,
     });
@@ -303,9 +302,11 @@ class FirestoreService {
         .where('isActive', isEqualTo: true)
         .orderBy('locationName', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => LocationModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => LocationModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Returns a real-time stream of all active locations for a specific client.
@@ -321,9 +322,11 @@ class FirestoreService {
         .where('isActive', isEqualTo: true)
         .orderBy('locationName', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => LocationModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => LocationModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Fetches all active locations for a specific client (non-streaming, for filters).
@@ -347,7 +350,8 @@ class FirestoreService {
 
   /// Fetches all active locations for a branch (non-streaming, for filters).
   Future<List<LocationModel>> fetchAllActiveLocationsByBranch(
-      String branchId) async {
+    String branchId,
+  ) async {
     final querySnapshot = await _firestoreInstance
         .collection(_locationsCollection)
         .where('branchId', isEqualTo: branchId)
@@ -380,11 +384,11 @@ class FirestoreService {
         .collection(_locationsCollection)
         .doc(locationId)
         .update({
-      'locationName': newLocationName,
-      'address': newAddress,
-      'latitude': newLatitude,
-      'longitude': newLongitude,
-    });
+          'locationName': newLocationName,
+          'address': newAddress,
+          'latitude': newLatitude,
+          'longitude': newLongitude,
+        });
   }
 
   /// Soft-deletes a location by setting its isActive flag to false.
@@ -408,14 +412,17 @@ class FirestoreService {
         .where('isActive', isEqualTo: true)
         .orderBy('clientName', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => ClientModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => ClientModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Fetches all active clients for a branch (non-streaming, for filters).
   Future<List<ClientModel>> fetchAllActiveClientsByBranch(
-      String branchId) async {
+    String branchId,
+  ) async {
     final querySnapshot = await _firestoreInstance
         .collection(_clientsCollection)
         .where('branchId', isEqualTo: branchId)
@@ -467,9 +474,11 @@ class FirestoreService {
         .where('isActive', isEqualTo: true)
         .orderBy('branchName', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) => BranchModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map((doc) => BranchModel.fromFirestore(doc.data(), doc.id))
+              .toList(),
+        );
   }
 
   /// Updates the name of an existing branch.
@@ -522,22 +531,25 @@ class FirestoreService {
   /// Returns a real-time stream of all active operation types for a branch.
   /// Used by the worker dropdown when opening a new call.
   Stream<List<OperationTypeModel>> streamActiveOperationTypesByBranch(
-      String branchId) {
+    String branchId,
+  ) {
     return _firestoreInstance
         .collection(_operationTypesCollection)
         .where('branchId', isEqualTo: branchId)
         .where('isActive', isEqualTo: true)
         .orderBy('operationTypeName', descending: false)
         .snapshots()
-        .map((querySnapshot) => querySnapshot.docs
-        .map((doc) =>
-        OperationTypeModel.fromFirestore(doc.data(), doc.id))
-        .toList());
+        .map(
+          (querySnapshot) => querySnapshot.docs
+              .map(
+                (doc) => OperationTypeModel.fromFirestore(doc.data(), doc.id),
+              )
+              .toList(),
+        );
   }
 
   /// Creates a new operation type document in Firestore.
-  Future<void> createOperationType(
-      OperationTypeModel newOperationType) async {
+  Future<void> createOperationType(OperationTypeModel newOperationType) async {
     await _firestoreInstance
         .collection(_operationTypesCollection)
         .doc(newOperationType.operationTypeId)
@@ -566,9 +578,9 @@ class FirestoreService {
         .collection(_operationTypesCollection)
         .doc(operationTypeId)
         .update({
-      'operationTypeName': newOperationTypeName,
-      'closeForm': newCloseForm.toMap(),
-    });
+          'operationTypeName': newOperationTypeName,
+          'closeForm': newCloseForm.toMap(),
+        });
   }
 
   /// Soft-deletes an operation type by setting its isActive flag to false.
@@ -588,34 +600,33 @@ class FirestoreService {
   Future<void> addClientNote({
     required String clientId,
     required NoteEntry note,
-  }) =>
-      _addNote(_clientsCollection, clientId, note);
+  }) => _addNote(_clientsCollection, clientId, note);
 
   /// Permanently removes a note entry from a client.
   Future<void> deleteClientNote({
     required String clientId,
     required String noteId,
-  }) =>
-      _deleteNote(_clientsCollection, clientId, noteId);
+  }) => _deleteNote(_clientsCollection, clientId, noteId);
 
   /// Adds a note entry to a location.
   Future<void> addLocationNote({
     required String locationId,
     required NoteEntry note,
-  }) =>
-      _addNote(_locationsCollection, locationId, note);
+  }) => _addNote(_locationsCollection, locationId, note);
 
   /// Permanently removes a note entry from a location.
   Future<void> deleteLocationNote({
     required String locationId,
     required String noteId,
-  }) =>
-      _deleteNote(_locationsCollection, locationId, noteId);
+  }) => _deleteNote(_locationsCollection, locationId, noteId);
 
   /// Appends a note to the 'notes' list of any document.
   /// Creates the list if the document doesn't have one yet.
   Future<void> _addNote(
-      String collection, String documentId, NoteEntry note) async {
+    String collection,
+    String documentId,
+    NoteEntry note,
+  ) async {
     await _firestoreInstance.collection(collection).doc(documentId).update({
       'notes': FieldValue.arrayUnion([note.toMap()]),
     });
@@ -625,13 +636,16 @@ class FirestoreService {
   /// Runs as a transaction so two managers editing at once
   /// can't overwrite each other's changes.
   Future<void> _deleteNote(
-      String collection, String documentId, String noteId) async {
+    String collection,
+    String documentId,
+    String noteId,
+  ) async {
     final DocumentReference<Map<String, dynamic>> documentReference =
-    _firestoreInstance.collection(collection).doc(documentId);
+        _firestoreInstance.collection(collection).doc(documentId);
 
     await _firestoreInstance.runTransaction((transaction) async {
-      final DocumentSnapshot<Map<String, dynamic>> snapshot =
-      await transaction.get(documentReference);
+      final DocumentSnapshot<Map<String, dynamic>> snapshot = await transaction
+          .get(documentReference);
       final List<dynamic> currentNotes =
           (snapshot.data()?['notes'] as List<dynamic>?) ?? [];
       final List<dynamic> remainingNotes = currentNotes
@@ -639,5 +653,91 @@ class FirestoreService {
           .toList();
       transaction.update(documentReference, {'notes': remainingNotes});
     });
+  }
+
+  // ─────────────────────────────────────────────
+  // FIELD NOTE OPERATIONS (the technicians' Diary)
+  // ─────────────────────────────────────────────
+
+  /// Returns a real-time stream of all field notes in a branch that haven't
+  /// expired yet, newest first. One query covers the whole Diary: the
+  /// screens group the notes by business and machine themselves.
+  Stream<List<FieldNoteModel>> streamActiveFieldNotesByBranch(String branchId) {
+    return _firestoreInstance
+        .collection(_fieldNotesCollection)
+        .where('branchId', isEqualTo: branchId)
+        .where('expiresAt', isGreaterThan: Timestamp.now())
+        .snapshots()
+        .map((querySnapshot) {
+          final List<FieldNoteModel> notes = querySnapshot.docs
+              .map((doc) => FieldNoteModel.fromFirestore(doc.data(), doc.id))
+              .toList();
+          notes.sort(
+            (first, second) => second.createdAt.compareTo(first.createdAt),
+          );
+          return notes;
+        });
+  }
+
+  /// Reads how many days field notes are kept for a branch.
+  /// Stored as 'fieldNoteRetentionDays' on the branch document; falls back
+  /// to [defaultFieldNoteRetentionDays] when missing or out of range.
+  Future<int> fetchFieldNoteRetentionDays(String branchId) async {
+    try {
+      final documentSnapshot = await _firestoreInstance
+          .collection(_branchesCollection)
+          .doc(branchId)
+          .get();
+      final dynamic storedDays = documentSnapshot
+          .data()?['fieldNoteRetentionDays'];
+      if (storedDays is int && storedDays >= 1 && storedDays <= 30) {
+        return storedDays;
+      }
+    } catch (_) {
+      /// A missing or unreadable setting is not an error: use the default
+    }
+    return defaultFieldNoteRetentionDays;
+  }
+
+  /// Saves a new field note on a machine, written by [author].
+  /// The note expires after the branch's retention period.
+  Future<void> addFieldNote({
+    required UserModel author,
+    required LocationModel location,
+    required String text,
+    String? callId,
+    String? operationName,
+  }) async {
+    final int retentionDays = await fetchFieldNoteRetentionDays(
+      author.branchId,
+    );
+    final DocumentReference<Map<String, dynamic>> newNoteReference =
+        _firestoreInstance.collection(_fieldNotesCollection).doc();
+
+    final FieldNoteModel newNote = FieldNoteModel(
+      noteId: newNoteReference.id,
+      branchId: author.branchId,
+      clientId: location.clientId,
+      clientName: location.clientName,
+      locationId: location.locationId,
+      locationName: location.locationName,
+      text: text.trim(),
+      authorId: author.userId,
+      authorName: author.fullName,
+      createdAt: DateTime.now(),
+      expiresAt: DateTime.now().add(Duration(days: retentionDays)),
+      callId: callId,
+      operationName: operationName,
+    );
+
+    await newNoteReference.set(newNote.toFirestoreForCreate());
+  }
+
+  /// Permanently deletes a field note (its author or a manager).
+  Future<void> deleteFieldNote(String noteId) async {
+    await _firestoreInstance
+        .collection(_fieldNotesCollection)
+        .doc(noteId)
+        .delete();
   }
 }

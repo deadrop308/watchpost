@@ -726,4 +726,88 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get couldNotOpenLink =>
       'Couldn\'t open the link. Check your internet connection and try again.';
+
+  @override
+  String get mainMenu => 'Main';
+
+  @override
+  String get diary => 'Diary';
+
+  @override
+  String get diaryComingSoon =>
+      'Technician notes for each machine will appear here.';
+
+  @override
+  String get diarySearchHint => 'Search businesses';
+
+  @override
+  String get diaryNoBusinesses => 'No businesses found.';
+
+  @override
+  String get diaryNoMachines => 'No machines for this business yet.';
+
+  @override
+  String diaryNoteCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count notes',
+      one: '1 note',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String diaryLastNote(String time) {
+    return 'last $time';
+  }
+
+  @override
+  String diaryToday(String time) {
+    return 'Today $time';
+  }
+
+  @override
+  String diaryYesterday(String time) {
+    return 'Yesterday $time';
+  }
+
+  @override
+  String get diaryMachineInfo => 'Machine info';
+
+  @override
+  String diaryRecentNotes(int days) {
+    return 'Technician notes, last $days days';
+  }
+
+  @override
+  String get diaryNoRecentNotes => 'No notes in this period yet.';
+
+  @override
+  String get diaryAddNote => 'Add note';
+
+  @override
+  String get diaryNoteHint =>
+      'What did you do or notice? The next technician will see it.';
+
+  @override
+  String get diarySave => 'Save';
+
+  @override
+  String get diaryDelete => 'Delete';
+
+  @override
+  String get diaryNoteSaveFailed => 'Couldn\'t save the note. Try again.';
+
+  @override
+  String get diaryDeleteNoteTitle => 'Delete this note?';
+
+  @override
+  String get diaryDeleteNoteConfirm => 'This can\'t be undone.';
+
+  @override
+  String get diaryNoteDeleteFailed => 'Couldn\'t delete the note.';
+
+  @override
+  String get diaryLoadFailed => 'Couldn\'t load the diary.';
 }

@@ -8,7 +8,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # Every upload to Google Play needs a HIGHER number after the +
 # (1.0.0+1, then 1.0.1+2, then 1.0.2+3, ...). The part before the + is what
 # users see. The number after the + can never be reused.
-version: 1.0.0+3
+version: 1.0.0+5
 
 environment:
   sdk: ^3.11.1
@@ -44,6 +44,7 @@ dependencies:
   shared_preferences: ^2.3.3
   url_launcher: ^6.3.1
   firebase_app_check: ^0.4.8
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:

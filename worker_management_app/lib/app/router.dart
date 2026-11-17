@@ -21,6 +21,7 @@ import '../features/manager/location_management/clients_and_locations_screen.dar
 import '../core/models/client_model.dart';
 import '../features/manager/add_edit_operation_type_screen.dart';
 import '../core/models/operation_type_model.dart';
+import '../features/diary/diary_screens.dart';
 
 part 'router.g.dart';
 
@@ -43,7 +44,10 @@ class AppRoutePaths {
   static const String managerOperationTypeManagement = '/manager/operations';
   static const String managerReport = '/manager/report';
   static const String managerSendCall = '/manager/send-call';
-  static const String managerAddEditOperationType = '/manager/operation-types/edit';
+  static const String managerAddEditOperationType =
+      '/manager/operation-types/edit';
+  static const String diaryMachines = '/diary/machines';
+  static const String diaryMachine = '/diary/machine';
 }
 
 /// Provides the [GoRouter] instance used for navigation throughout the app.
@@ -55,6 +59,7 @@ GoRouter appRouter(Ref ref) {
 
   return GoRouter(
     initialLocation: AppRoutePaths.login,
+
     /// Redirect logic runs before every navigation event
     redirect: (BuildContext context, GoRouterState routerState) {
       final bool isOnLoginScreen =
@@ -69,10 +74,10 @@ GoRouter appRouter(Ref ref) {
 
         /// Once we have the auth state, decide where to send the user
         data: (UserModel? currentUser) {
-          /// No user logged in — send to login screen
+          /// No user logged in, send to login screen
           if (currentUser == null) return AppRoutePaths.login;
 
-          /// User is logged in but on login screen — redirect to their dashboard
+          /// User is logged in but on login screen, redirect to their dashboard
           if (isOnLoginScreen) {
             switch (currentUser.role) {
               case UserRole.worker:
@@ -84,7 +89,7 @@ GoRouter appRouter(Ref ref) {
             }
           }
 
-          /// User is logged in and on a valid screen — no redirect needed
+          /// User is logged in and on a valid screen, no redirect needed
           return null;
         },
       );
@@ -134,7 +139,7 @@ GoRouter appRouter(Ref ref) {
         path: AppRoutePaths.managerAddEditLocation,
         builder: (context, state) {
           final Map<String, dynamic> arguments =
-          state.extra as Map<String, dynamic>;
+              state.extra as Map<String, dynamic>;
           return AddEditLocationScreen(
             currentUser: arguments['currentUser'] as UserModel,
             existingLocation: arguments['existingLocation'] as LocationModel?,
@@ -158,11 +163,37 @@ GoRouter appRouter(Ref ref) {
         path: AppRoutePaths.managerAddEditOperationType,
         builder: (context, state) {
           final Map<String, dynamic> arguments =
-          state.extra as Map<String, dynamic>;
+              state.extra as Map<String, dynamic>;
           return AddEditOperationTypeScreen(
             currentUser: arguments['currentUser'] as UserModel,
             existingOperationType:
-            arguments['existingOperationType'] as OperationTypeModel?,
+                arguments['existingOperationType'] as OperationTypeModel?,
+          );
+        },
+      ),
+
+      /// Diary: the machines of one business
+      GoRoute(
+        path: AppRoutePaths.diaryMachines,
+        builder: (context, state) {
+          final Map<String, dynamic> arguments =
+              state.extra as Map<String, dynamic>;
+          return DiaryMachinesScreen(
+            currentUser: arguments['currentUser'] as UserModel,
+            client: arguments['client'] as ClientModel,
+          );
+        },
+      ),
+
+      /// Diary: one machine's info and recent notes
+      GoRoute(
+        path: AppRoutePaths.diaryMachine,
+        builder: (context, state) {
+          final Map<String, dynamic> arguments =
+              state.extra as Map<String, dynamic>;
+          return DiaryMachineScreen(
+            currentUser: arguments['currentUser'] as UserModel,
+            location: arguments['location'] as LocationModel,
           );
         },
       ),

@@ -163,14 +163,66 @@ service cloud.firestore {
     // BRANCHES COLLECTION
     // ─────────────────────────────────────────────
     match /branches/{branchId} {
-      /// Admins and managers can read branches
-      allow read: if hasRole('admin') || hasRole('manager');
+      /// Admins and managers can read branches.
+      /// Any active member can read their OWN branch (for branch settings
+      /// such as fieldNoteRetentionDays).
+      allow read: if hasRole('admin') || hasRole('manager') || (
+        isAuthenticated()
+        && getUserDocument().isActive == true
+        && getUserBranchId() == branchId
+      );
 
       /// Only admins can create or rename/deactivate branches
       allow create, update: if hasRole('admin');
 
       /// Nobody can delete branches (soft-delete only)
       allow delete: if false;
+    }
+
+    // ─────────────────────────────────────────────
+    // FIELD NOTES COLLECTION (the technicians' Diary)
+    // Short-lived notes on a machine, readable by the whole branch.
+    // Deleted automatically by a TTL policy on expiresAt.
+    // ─────────────────────────────────────────────
+    match /fieldNotes/{noteId} {
+      /// Any active member of the branch can read its notes
+      allow read: if isAuthenticated()
+        && getUserDocument().isActive == true
+        && resource.data.branchId == getUserBranchId();
+
+      /// Workers and managers write notes only:
+      /// - in their own branch, about a machine of that branch
+      /// - signed with their own ID and real name
+      /// - with a server timestamp and an expiry of at most 31 days
+      /// - with 1 to 1000 characters of text
+      allow create: if (hasRole('worker') || hasRole('manager'))
+        && request.resource.data.keys().hasOnly([
+             'branchId', 'clientId', 'clientName', 'locationId',
+             'locationName', 'text', 'authorId', 'authorName',
+             'createdAt', 'expiresAt', 'callId', 'operationName'])
+        && request.resource.data.branchId == getUserBranchId()
+        && request.resource.data.authorId == request.auth.uid
+        && request.resource.data.authorName == getUserDocument().fullName
+        && request.resource.data.text is string
+        && request.resource.data.text.size() > 0
+        && request.resource.data.text.size() <= 1000
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.expiresAt is timestamp
+        && request.resource.data.expiresAt > request.time
+        && request.resource.data.expiresAt < request.time + duration.value(31, 'd')
+        && get(/databases/$(database)/documents/locations/$(request.resource.data.locationId)).data.branchId == getUserBranchId();
+
+      /// Notes are never edited, so the Diary stays trustworthy
+      allow update: if false;
+
+      /// The author can delete their own note (e.g. a typo);
+      /// managers can delete any note in their branch
+      allow delete: if isAuthenticated()
+        && getUserDocument().isActive == true
+        && (
+          resource.data.authorId == request.auth.uid ||
+          (hasRole('manager') && resource.data.branchId == getUserBranchId())
+        );
     }
 
     // ─────────────────────────────────────────────

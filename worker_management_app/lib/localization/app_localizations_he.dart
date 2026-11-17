@@ -701,4 +701,86 @@ class AppLocalizationsHe extends AppLocalizations {
   @override
   String get couldNotOpenLink =>
       'לא ניתן לפתוח את הקישור. בדקו את החיבור לאינטרנט ונסו שוב.';
+
+  @override
+  String get mainMenu => 'ראשי';
+
+  @override
+  String get diary => 'יומן';
+
+  @override
+  String get diaryComingSoon => 'כאן יופיעו הערות הטכנאים לכל מכונה.';
+
+  @override
+  String get diarySearchHint => 'חיפוש עסק';
+
+  @override
+  String get diaryNoBusinesses => 'לא נמצאו עסקים.';
+
+  @override
+  String get diaryNoMachines => 'אין עדיין מכונות לעסק זה.';
+
+  @override
+  String diaryNoteCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count הערות',
+      one: 'הערה אחת',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String diaryLastNote(String time) {
+    return 'אחרונה $time';
+  }
+
+  @override
+  String diaryToday(String time) {
+    return 'היום $time';
+  }
+
+  @override
+  String diaryYesterday(String time) {
+    return 'אתמול $time';
+  }
+
+  @override
+  String get diaryMachineInfo => 'מידע על המכונה';
+
+  @override
+  String diaryRecentNotes(int days) {
+    return 'הערות טכנאים, $days הימים האחרונים';
+  }
+
+  @override
+  String get diaryNoRecentNotes => 'אין עדיין הערות בתקופה זו.';
+
+  @override
+  String get diaryAddNote => 'הוספת הערה';
+
+  @override
+  String get diaryNoteHint => 'מה עשית או מה שמת לב? הטכנאי הבא יראה את זה.';
+
+  @override
+  String get diarySave => 'שמירה';
+
+  @override
+  String get diaryDelete => 'מחיקה';
+
+  @override
+  String get diaryNoteSaveFailed => 'לא ניתן לשמור את ההערה. נסו שוב.';
+
+  @override
+  String get diaryDeleteNoteTitle => 'למחוק את ההערה?';
+
+  @override
+  String get diaryDeleteNoteConfirm => 'לא ניתן לבטל פעולה זו.';
+
+  @override
+  String get diaryNoteDeleteFailed => 'לא ניתן למחוק את ההערה.';
+
+  @override
+  String get diaryLoadFailed => 'לא ניתן לטעון את היומן.';
 }

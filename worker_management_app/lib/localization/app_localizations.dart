@@ -1441,6 +1441,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t open the link. Check your internet connection and try again.'**
   String get couldNotOpenLink;
+
+  /// No description provided for @mainMenu.
+  ///
+  /// In en, this message translates to:
+  /// **'Main'**
+  String get mainMenu;
+
+  /// No description provided for @diary.
+  ///
+  /// In en, this message translates to:
+  /// **'Diary'**
+  String get diary;
+
+  /// No description provided for @diaryComingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Technician notes for each machine will appear here.'**
+  String get diaryComingSoon;
+
+  /// No description provided for @diarySearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search businesses'**
+  String get diarySearchHint;
+
+  /// No description provided for @diaryNoBusinesses.
+  ///
+  /// In en, this message translates to:
+  /// **'No businesses found.'**
+  String get diaryNoBusinesses;
+
+  /// No description provided for @diaryNoMachines.
+  ///
+  /// In en, this message translates to:
+  /// **'No machines for this business yet.'**
+  String get diaryNoMachines;
+
+  /// No description provided for @diaryNoteCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 note} other{{count} notes}}'**
+  String diaryNoteCount(int count);
+
+  /// No description provided for @diaryLastNote.
+  ///
+  /// In en, this message translates to:
+  /// **'last {time}'**
+  String diaryLastNote(String time);
+
+  /// No description provided for @diaryToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today {time}'**
+  String diaryToday(String time);
+
+  /// No description provided for @diaryYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'Yesterday {time}'**
+  String diaryYesterday(String time);
+
+  /// No description provided for @diaryMachineInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Machine info'**
+  String get diaryMachineInfo;
+
+  /// No description provided for @diaryRecentNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'Technician notes, last {days} days'**
+  String diaryRecentNotes(int days);
+
+  /// No description provided for @diaryNoRecentNotes.
+  ///
+  /// In en, this message translates to:
+  /// **'No notes in this period yet.'**
+  String get diaryNoRecentNotes;
+
+  /// No description provided for @diaryAddNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Add note'**
+  String get diaryAddNote;
+
+  /// No description provided for @diaryNoteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'What did you do or notice? The next technician will see it.'**
+  String get diaryNoteHint;
+
+  /// No description provided for @diarySave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get diarySave;
+
+  /// No description provided for @diaryDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get diaryDelete;
+
+  /// No description provided for @diaryNoteSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t save the note. Try again.'**
+  String get diaryNoteSaveFailed;
+
+  /// No description provided for @diaryDeleteNoteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this note?'**
+  String get diaryDeleteNoteTitle;
+
+  /// No description provided for @diaryDeleteNoteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'This can\'t be undone.'**
+  String get diaryDeleteNoteConfirm;
+
+  /// No description provided for @diaryNoteDeleteFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t delete the note.'**
+  String get diaryNoteDeleteFailed;
+
+  /// No description provided for @diaryLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load the diary.'**
+  String get diaryLoadFailed;
 }
 
 class _AppLocalizationsDelegate
